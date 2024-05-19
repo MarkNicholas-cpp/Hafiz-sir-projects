@@ -19,18 +19,8 @@ const commentSchema = new mongoose.Schema({
         default: Date.now
     },
     replay: [{
-        userId:String,
-        postId:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"user",
-            required: true
-        },
-        comment:String,
-        date:{
-            type:Date,
-            required: true,
-            default:Date.now
-        }
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'reply'
     }]
 })
 const Comments = mongoose.model('Comment', commentSchema);

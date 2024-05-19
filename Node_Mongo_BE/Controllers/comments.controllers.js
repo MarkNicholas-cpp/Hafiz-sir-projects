@@ -6,14 +6,13 @@ const createComment = async (comment) => {
     return newComment;
 };
 
-const getComments = async (postId, parentId = null) => {
-    const comments = await commentScheme.find({ postId: postId, parentId: parentId });
+const getComments = async (postId) => {
+    const comments = await commentScheme.find({ postId: postId });
     return comments;
 }
 
 const deleteComment = async (commentId) => {
-    
-    commentScheme.deleteOne({ _id: commentId });
+    return await commentScheme.deleteOne({ _id: commentId });
 }
 
-module.exports = { createComment, getComments };
+module.exports = { createComment, getComments, deleteComment };

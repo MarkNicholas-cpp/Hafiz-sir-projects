@@ -10,17 +10,12 @@ router.post('/', async function (req, res) {
         res.send(err);
     }
 })
-router.get('/?postId=:postId&parentId=:parentId', async function (req, res) {
+router.get('/:postId', async function (req, res) {
     try {
         const postId = req.query.postId;
         const parentId = req.query.parentId;
-        if (parentId) {
-            const result = await commentController.getComments(postId, parentId);
-            res.send(result);
-        } else {
-            const result = await commentController.getComments(postId);
-            res.send(result);
-        }
+        const result = await commentController.getComments(postId);
+        res.send(result);
     } catch (err) {
         res.send(err);
     }
