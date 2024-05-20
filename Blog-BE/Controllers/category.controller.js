@@ -11,4 +11,9 @@ async function createCategory(category) {
     await newCategory.save();
     return newCategory;
 }
-module.exports = { getCategoryIdByName, createCategory };
+async function getAllCategores(){
+    const allCategories = await categoryScheme.find();
+    return allCategories;
+
+}
+module.exports = { getCategoryIdByName, createCategory ,getAllCategores};

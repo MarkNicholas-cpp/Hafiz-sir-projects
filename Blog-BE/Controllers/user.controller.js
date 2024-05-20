@@ -6,6 +6,12 @@ const createUser = async (userData) => {
     return user;
 };
 
+const getUser = async (__id)=>{
+    const userinfo = await User.findOne(__id);
+    return userinfo;
+}
+
 module.exports = {
     createUser,
+    getUser
 };

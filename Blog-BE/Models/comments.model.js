@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 const commentSchema = new mongoose.Schema({
     userId:{
@@ -18,7 +19,7 @@ const commentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    replay: [{
+    reply: [{
         type:mongoose.Schema.Types.ObjectId,
         ref:'reply'
     }]

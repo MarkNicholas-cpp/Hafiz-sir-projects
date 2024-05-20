@@ -12,4 +12,13 @@ router.post('/', async function (req, res) {
         res.send(err);
     }
 })
+
+router.get("/getAllCategories",async function(req,res){
+    try{
+        const allCategories = await categoryController.getAllCategores();
+        res.send(allCategories);
+    }catch(err){
+        res.send(err);
+    }
+})
 module.exports = router

@@ -4,8 +4,9 @@ const userRoute = require('./Routes/user.routes');
 const postRoute = require('./Routes/post.routes');
 const commentsRoute = require('./Routes/comments.routes');
 const categoryRoute = require('./Routes/category.routes');
+const loginRoute    = require('./Routes/login.routes');
 const cors = require('cors');
-
+const {adminchecker,authtoken} = require('./middleware/adminMiddleware');
 const app = express();
 
 app.use(cors());
@@ -22,11 +23,18 @@ app.get('/', (req, res) => {
 });
 
 app.use('/user', userRoute);
-app.use('/post', postRoute);
-app.use('/comments', commentsRoute);
+
+app.use('/login',(req,res,next)=>{
+ console.log('we are arriving at this api');
+  next();
+},loginRoute);
+
+app.use('/post',authtoken,postRoute);
+app.use('/comments',authtoken, commentsRoute);
 app.use('/category', categoryRoute);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+
+app.listen(3000,'192.168.0.105',() => {
   console.log(`Server started on port ${PORT}`);
 });

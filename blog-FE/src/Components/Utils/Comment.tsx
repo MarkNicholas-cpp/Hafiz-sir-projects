@@ -26,7 +26,6 @@ function Comment({ commentData }: props) {
               {daysDifference} days ago
             </span>
           </div>
-
           <p className="text-gray-800">{commentData.comment}</p>
           {userId == commentData.userId && (<div className="flex gap-2 my-3">
               <button className="border border-gray-400 rounded-md p-2">Edit</button>
