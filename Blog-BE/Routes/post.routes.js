@@ -18,19 +18,19 @@ router.post('/', async function (req, res) {
     }
 });
 
-router.get('/getPostById/:postid',async function (req,res){
-  try{
-    const _id = req.params.postid;
-    const post= await postController.getPostById(_id);
-    if(!post){
-        res.status(401).json({err:'post not found'})
+router.get('/getPostById/:postid', async function (req, res) {
+    try {
+        const _id = req.params.postid;
+        const post = await postController.getPostById(_id);
+        if (!post) {
+            res.status(401).json({ err: 'post not found' })
+        }
+        console.log(post)
+        res.status(200).json(post)
     }
-    console.log(post)
-    res.status(200).json(post)
-  }
-  catch(err){
-    res.send(err);
-  }
+    catch (err) {
+        res.send(err);
+    }
 })
 
 
@@ -41,6 +41,28 @@ router.get('/getAllPosts', function (req, res) {
     }).catch(err => {
         res.send(err);
     })
+});
+
+router.delete('/deletePost/:id', async function (req, res) {
+    try {
+        const id = req.params.id;
+        const result = await postController.deletePostById(id);
+        res.status(200).send(result);
+    } catch (err) {
+        res.status(409).send(err);
+        console.log(err)
+    }
+});
+
+router.put('/updatePost/:id', async function (req, res) {
+    try {
+        const id = req.params.id;
+        const post = req.body;
+        await postController.updatePostById(id, post);
+        res.status(200).send({ message: "Updated Successfully" });
+    } catch (err) {
+        res.status(409).send(err);
+    }
 });
 
 module.exports = router;

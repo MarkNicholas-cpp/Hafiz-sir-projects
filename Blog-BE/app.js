@@ -35,6 +35,6 @@ app.use('/category', categoryRoute);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(3000,'192.168.0.105',() => {
+app.listen(3000,'localhost',() => {
   console.log(`Server started on port ${PORT}`);
 });

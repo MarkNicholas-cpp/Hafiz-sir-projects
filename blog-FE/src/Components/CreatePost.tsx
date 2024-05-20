@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import apiInstance from "./Utils/apiInstance";
+import { useNavigate } from "react-router-dom";
 
 interface Category {
   _id: string;
@@ -13,7 +14,7 @@ function CreatePost() {
   const [categoryId, setCategoryId] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
-
+  const Navigate = useNavigate();
   useEffect(() => {
     apiInstance
       .get("/category/getAllCategories")
@@ -39,6 +40,7 @@ function CreatePost() {
     try {
       const response = await apiInstance.post("/post", postData);
       console.log("Post created successfully:", response.data);
+      Navigate("/");
     } catch (error) {
       console.error("Error creating post:", error);
     }
