@@ -20,6 +20,7 @@ function Home() {
   }
   useEffect(() => {
     fetchPosts();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   function deletePost(id: string) {
     apiInstance
