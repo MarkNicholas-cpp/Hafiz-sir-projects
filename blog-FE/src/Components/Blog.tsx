@@ -23,6 +23,7 @@ function Blog() {
       })
       .then((res) => {
         console.log(res.data);
+        window.location.reload();
       })
       .catch((err) => {
         console.log(err);
@@ -104,7 +105,7 @@ function Blog() {
                 {comments.length == 0 ? (
                   "No comments yet"
                 ) : (
-                  <Comments comments={comments} reply={false}></Comments>
+                  <Comments comments={comments}></Comments>
                 )}
               </div>
             </div>

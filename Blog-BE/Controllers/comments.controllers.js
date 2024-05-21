@@ -13,15 +13,15 @@ const getComments = async (postId) => {
 }
 
 const deleteComment = async (commentId) => {
-    const  removedData =  await commentScheme.deleteOne({ _id: commentId });
-    return removedData;
+    await commentScheme.deleteOne({ _id: commentId });
+    return { message: "comment deleted" };
 }
 
 
-const updateComment = async (id,data)=>{
- const newdata = await commentScheme.findOneAndUpdate(id,data);
- return newdata;
+const updateComment = async (id, data) => {
+    const newdata = await commentScheme.findByIdAndUpdate(id, data);
+    return newdata;
 }
 
 
-module.exports = { createComment, getComments, deleteComment,updateComment};
+module.exports = { createComment, getComments, deleteComment, updateComment };

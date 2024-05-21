@@ -22,25 +22,26 @@ router.get('/:postId', async function (req, res) {
     }
 });
 
-router.delete('/:id', async function (req, res) {
+router.delete('/deleteComment/:id', async function (req, res) {
     try {
         const id = req.params.id;
         const result = await commentController.deleteComment(id);
-        res.send(result);
+        res.status(200).send(result);
     } catch (err) {
         res.send(err);
     }
 })
 
 
-router.put("/:id",async function(req,res){
-    try{
-       const id = req.params.id;
-       const data = req.body;
-       const updatedComment = await commentController.updateComment(id,data);
-     res.send(updatedComment);
+router.put("/updateComment/:id", async function (req, res) {
+    try {
+        const id = req.params.id;
+        const data = req.body;
+        console.log(req.body)
+        const updatedComment = await commentController.updateComment(id, data);
+        res.send(updatedComment);
     }
-    catch(err){
+    catch (err) {
         res.send(err);
     }
 

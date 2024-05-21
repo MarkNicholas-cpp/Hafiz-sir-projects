@@ -1,36 +1,50 @@
 import { useState } from "react";
 import "../index.css";
-import apiInsance from "./Utils/apiInstance";
+import apiInstance from "./Utils/apiInstance";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-function Login() {
+
+function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
-  const Submit = () => {
-    console.log(email, password);
-    apiInsance
-      .post("/login", { email: email, password: password })
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        localStorage.setItem("userId", res.data.payload.userId);
-        navigate("/");
+
+  const notify = (msg: string, type = "success") => {
+    if (type === "success") {
+      toast.success(msg);
+    } else {
+      toast.error(msg);
+    }
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (password !== confirmPassword) {
+      notify("Passwords do not match!", "error");
+      return;
+    }
+
+    apiInstance
+      .post("/register", { email, password })
+      .then(() => {
+        notify("Registration successful!");
+        navigate("/login");
       })
       .catch((err) => {
         console.log(err);
+        notify("Registration failed!", "error");
       });
   };
+
   return (
     <>
+      <ToastContainer />
       <div className="flex items-center justify-center h-screen bg-gray-100">
         <div className="bg-gray-800 text-white rounded-lg shadow-lg p-10 max-w-lg w-full mx-auto border border-gray-700">
-          <h2 className="text-3xl font-bold mb-8 text-center">Login</h2>
-          <form
-            className="space-y-6"
-            onSubmit={(e: React.ChangeEvent<HTMLFormElement>) => {
-              e.preventDefault();
-              Submit();
-            }}
-          >
+          <h2 className="text-3xl font-bold mb-8 text-center">Register</h2>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email" className="block text-sm font-medium">
                 Email
@@ -66,18 +80,38 @@ function Login() {
               />
             </div>
             <div>
+              <label
+                htmlFor="confirm-password"
+                className="block text-sm font-medium"
+              >
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirm-password"
+                name="confirm-password"
+                value={confirmPassword}
+                className="block w-full px-4 py-3 mt-1 text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                required
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  e.preventDefault();
+                  setConfirmPassword(e.target.value);
+                }}
+              />
+            </div>
+            <div>
               <button
                 type="submit"
                 className="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-md"
               >
-                Sign In
+                Register
               </button>
             </div>
           </form>
           <p className="mt-6 text-center text-sm text-gray-300">
-            Don't have an account?
-            <a href="/register" className="text-indigo-500 hover:text-indigo-400">
-              Click here to register
+            Already have an account?
+            <a href="/login" className="text-indigo-500 hover:text-indigo-400">
+              Click here to login
             </a>
             .
           </p>
@@ -87,4 +121,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Register;

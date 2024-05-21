@@ -3,9 +3,9 @@ import { Navigate } from "react-router-dom";
 interface props {
     children: ReactNode;
 }
-const PrivateRoute = ({ children }: props) => {
+const LoggedInPrivateRoute = ({ children }: props) => {
     const token = localStorage.getItem("token");
-    return token ? children : <Navigate to="/login" />;
+    return !token ? children : <Navigate to="/" />;
 };
 
-export default PrivateRoute;
+export default LoggedInPrivateRoute;
