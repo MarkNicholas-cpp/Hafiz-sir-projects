@@ -4,6 +4,8 @@ import apiInstance from "./Utils/apiInstance";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
+import { MongooseError } from "../Interfaces/MongooseError";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -27,14 +29,23 @@ function Register() {
     }
 
     apiInstance
-      .post("/register", { email, password })
+      .post("/user", { email: email, password: password })
       .then(() => {
-        notify("Registration successful!");
-        navigate("/login");
+        notify("Registration successful!", "success");
+        notify("Waiting", "success");
+        setInterval(() => {
+          navigate("/login");
+        }, 5000);
       })
-      .catch((err) => {
+      .catch((err: AxiosError<MongooseError>) => {
         console.log(err);
-        notify("Registration failed!", "error");
+        notify(
+          err.response?.data?.code == 11000
+            ? err.response?.data?.errorResponse.errmsg
+            : err.response?.data?.errorResponse.errmsg ||
+                "Something Went wrong",
+          "error"
+        );
       });
   };
 
